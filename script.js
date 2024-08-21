@@ -46,19 +46,23 @@ function deleteAllTasks() {
     displayTasks();
 }
 
+function deleteTask(index) {
+    todo.splice(index, 1); // Remove the task from the array
+    saveToLocalStorage();  // Save the updated array to local storage
+    displayTasks();        // Refresh the task display
+}
+
 function displayTasks() {
     todoList.innerHTML = "";
     todo.forEach((item, index) => {
         const p = document.createElement("p");
         p.innerHTML = `
-            <div class="todo-container">
-                <input type="checkbox" class="todo-checkbox" id="input-${index}" ${
-            item.disabled ? "checked" : ""
-        }>
-                <p id="todo-${index}" class="${
-            item.disabled ? "disabled" : ""
-        }" onclick="editTask(${index})">${item.text}</p>
-            </div>
+        <div class="todo-container">
+            <input type="checkbox" class="todo-checkbox" id="input-${index}" ${item.disabled ? "checked" : ""}>
+            <span class="todo-text ${item.disabled ? "disabled" : ""}" onclick="editTask(${index})">${item.text}</span>
+            <button class="todo-delete-btn" onclick="deleteTask(${index})">Delete</button>
+        </div>
+    
         `;
         p.querySelector(".todo-checkbox").addEventListener("change", () =>
             toggleTask(index)
@@ -66,7 +70,13 @@ function displayTasks() {
         todoList.appendChild(p);
     });
     todoCount.textContent = todo.length;
-    checkAndUpdateStreak(); // Check and update streak when tasks are displayed
+    checkAndUpdateStreak(); 
+}
+
+function deleteTask(index) {
+    todo.splice(index, 1); 
+    saveToLocalStorage();
+    displayTasks(); 
 }
 
 function editTask(index) {
@@ -117,7 +127,7 @@ function checkAndUpdateStreak() {
 }
 
 function displayStreak() {
-    streakCount.textContent = `${streak} `;
+    streakCount.textContent = `${streak} `; //displaying the streak
 }
 
 function saveToLocalStorage() {
