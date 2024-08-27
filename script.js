@@ -58,7 +58,7 @@ function displayTasks() {
         <div class="todo-container" data-index="${index}">
             <input type="checkbox" class="todo-checkbox" id="input-${index}" ${item.disabled ? "checked" : ""}>
             <span class="todo-text ${item.disabled ? "disabled" : ""}" onclick="editTask(${index})">${item.text}</span>
-            <button class="todo-timer-btn" onclick="setTimer(${index})">Set Timer</button>
+            <button class="todo-timer-btn" onclick="setTimer(${index})">Timer</button>
             <button class="todo-delete-btn" onclick="deleteTask(${index})">Delete</button>
         </div>
     `;
