@@ -206,8 +206,10 @@ input[type="checkbox"]:checked::before {
 .todo-container {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     width: 100%;
 }
+
 .todo-container p {
     margin: 0;
     font-size: 1rem;
@@ -218,17 +220,43 @@ input[type="checkbox"]:checked::before {
     margin-right: 10px;
 }
 
-.todo-delete-btn {
-    margin-left: auto; 
-    background-color: #ff6b6b;
+.todo-edit-input {
+    flex-grow: 1;
     border: none;
-    padding: 5px 10px;
-    cursor: pointer;
+    font-size: 16px;
+    padding: 5px;
+    margin-right: 10px;
+    box-sizing: border-box;
+    background-color: var(--background);
+    color: var(--dark);
+}
+
+.todo-timer-btn, .todo-delete-btn {
+    padding: 4px 8px;
     color: white;
-    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.todo-timer-btn {
+    background-color: #4CAF50;
+    margin-right: 0.5rem; /* Adjust the space between buttons */
+}
+
+.todo-delete-btn {
+    background-color: #f44336;
+}
+
+.todo-timer-btn:hover {
+    background-color: #45a049;
+}
+
+.todo-timer-btn:disabled {
+    background-color: #9E9E9E;
+    cursor: not-allowed;
 }
 
 .todo-text {
-    flex-grow: 1; 
+    flex-grow: 1;
+    margin-right: 1rem;
 }
-

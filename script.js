@@ -57,13 +57,14 @@ function displayTasks() {
     todo.forEach((item, index) => {
         const p = document.createElement("p");
         p.innerHTML = `
-        <div class="todo-container">
-            <input type="checkbox" class="todo-checkbox" id="input-${index}" ${item.disabled ? "checked" : ""}>
-            <span class="todo-text ${item.disabled ? "disabled" : ""}" onclick="editTask(${index})">${item.text}</span>
-            <button class="todo-delete-btn" onclick="deleteTask(${index})">Delete</button>
-        </div>
-    
-        `;
+    <div class="todo-container">
+        <input type="checkbox" class="todo-checkbox" id="input-${index}" ${item.disabled ? "checked" : ""}>
+        <span class="todo-text ${item.disabled ? "disabled" : ""}" onclick="editTask(${index})">${item.text}</span>
+        <button class="todo-timer-btn" onclick="setTimer(${index})">Timer</button>
+        <button class="todo-delete-btn" onclick="deleteTask(${index})">Delete</button>
+    </div>
+`;
+
         p.querySelector(".todo-checkbox").addEventListener("change", () =>
             toggleTask(index)
         );
@@ -82,19 +83,27 @@ function deleteTask(index) {
 function editTask(index) {
     const todoItem = document.getElementById(`todo-${index}`);
     const existingText = todo[index].text;
-    const inputElement = document.createElement("input");
 
+    // Create a new input element for editing
+    const inputElement = document.createElement("input");
+    inputElement.type = "text";
     inputElement.value = existingText;
-    todoItem.replaceWith(inputElement);
+    inputElement.className = "todo-edit-input";
+    
+    // Replace the text span with the input field
+    const parentDiv = todoItem.parentElement;
+    parentDiv.querySelector('.todo-text').replaceWith(inputElement);
+    
     inputElement.focus();
 
+    // When the input loses focus, update the task and re-render
     inputElement.addEventListener("blur", function () {
         const updatedText = inputElement.value.trim();
         if (updatedText) {
             todo[index].text = updatedText;
             saveToLocalStorage();
         }
-        displayTasks();
+        displayTasks(); // Re-display tasks after editing
     });
 }
 
@@ -135,5 +144,39 @@ function saveToLocalStorage() {
     localStorage.setItem("streak", streak);
     localStorage.setItem("lastCompletionDate", lastCompletionDate);
 }
+
+function setTimer(index) {
+    let timeInMinutes = prompt("Enter the timer in minutes:");
+
+    if (timeInMinutes && !isNaN(timeInMinutes)) {
+        let timeInSeconds = timeInMinutes * 60; // Convert minutes to seconds
+        let timerBtn = document.querySelector(`#todoList .todo-container:nth-child(${index + 1}) .todo-timer-btn`);
+        timerBtn.disabled = true;
+        let remainingTime = timeInSeconds;
+
+        const interval = setInterval(() => {
+            remainingTime--;
+
+            // Calculate remaining minutes and seconds
+            let minutes = Math.floor(remainingTime / 60);
+            let seconds = remainingTime % 60;
+
+            // Update the button text with the remaining time
+            timerBtn.textContent = `${minutes}m ${seconds}s`;
+
+            if (remainingTime <= 0) {
+                clearInterval(interval);
+                timerBtn.textContent = "Task done!";
+                timerBtn.disabled = false;
+
+                // Play the sound
+                const timerSound = document.getElementById("timerSound");
+                timerSound.play();
+            }
+        }, 1000);
+    }
+}
+
+
 
 
