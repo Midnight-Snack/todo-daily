@@ -164,7 +164,7 @@ function setTimer(index) {
 
             if (remainingTime <= 0) {
                 clearInterval(interval);
-                timerBtn.textContent = "Set Timer";
+                timerBtn.textContent = "Timer";
                 timerBtn.disabled = false;
 
                 // Play the sound
