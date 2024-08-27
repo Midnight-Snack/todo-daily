@@ -1,4 +1,3 @@
-// Retrieve todo and streak from local storage or initialize
 let todo = JSON.parse(localStorage.getItem("todo")) || [];
 let streak = parseInt(localStorage.getItem("streak")) || 0;
 let lastCompletionDate = localStorage.getItem("lastCompletionDate") || '';
@@ -11,8 +10,7 @@ const todoCount = document.getElementById("todoCount");
 const streakCount = document.getElementById("streakCount");
 const addButton = document.querySelector(".btn");
 const deleteButton = document.getElementById("deleteButton");
-//8/18/2024 2 days streak chck 8/19/2024 for third day streak 
-// Initialize
+
 document.addEventListener("DOMContentLoaded", function() {
     addButton.addEventListener("click", addTask);
     todoInput.addEventListener("keydown", function(event) {
@@ -23,13 +21,13 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     deleteButton.addEventListener("click", deleteAllTasks);
     displayTasks();
-    checkAndUpdateStreak(); // Check and update streak when the page loads
-    displayStreak(); // Display streak when the page loads
+    checkAndUpdateStreak(); 
+    displayStreak(); 
 });
 
 function addTask() {
     const newTask = todoInput.value.trim();
-    if (newTask !== "") { // if there is text
+    if (newTask !== "") { 
         todo.push({
             text: newTask,
             disabled: false,
@@ -47,9 +45,9 @@ function deleteAllTasks() {
 }
 
 function deleteTask(index) {
-    todo.splice(index, 1); // Remove the task from the array
-    saveToLocalStorage();  // Save the updated array to local storage
-    displayTasks();        // Refresh the task display
+    todo.splice(index, 1); 
+    saveToLocalStorage();  
+    displayTasks();        
 }
 
 function displayTasks() {
@@ -57,14 +55,14 @@ function displayTasks() {
     todo.forEach((item, index) => {
         const p = document.createElement("p");
         p.innerHTML = `
-    <div class="todo-container">
-        <input type="checkbox" class="todo-checkbox" id="input-${index}" ${item.disabled ? "checked" : ""}>
-        <span class="todo-text ${item.disabled ? "disabled" : ""}" onclick="editTask(${index})">${item.text}</span>
-        <button class="todo-timer-btn" onclick="setTimer(${index})">Timer</button>
-        <button class="todo-delete-btn" onclick="deleteTask(${index})">Delete</button>
-    </div>
-`;
-
+        <div class="todo-container" data-index="${index}">
+            <input type="checkbox" class="todo-checkbox" id="input-${index}" ${item.disabled ? "checked" : ""}>
+            <span class="todo-text ${item.disabled ? "disabled" : ""}" onclick="editTask(${index})">${item.text}</span>
+            <button class="todo-timer-btn" onclick="setTimer(${index})">Set Timer</button>
+            <button class="todo-delete-btn" onclick="deleteTask(${index})">Delete</button>
+        </div>
+    `;
+    
         p.querySelector(".todo-checkbox").addEventListener("change", () =>
             toggleTask(index)
         );
@@ -150,7 +148,7 @@ function setTimer(index) {
 
     if (timeInMinutes && !isNaN(timeInMinutes)) {
         let timeInSeconds = timeInMinutes * 60; // Convert minutes to seconds
-        let timerBtn = document.querySelector(`#todoList .todo-container:nth-child(${index + 1}) .todo-timer-btn`);
+        let timerBtn = document.querySelector(`#todoList .todo-container[data-index="${index}"] .todo-timer-btn`);
         timerBtn.disabled = true;
         let remainingTime = timeInSeconds;
 
@@ -166,7 +164,7 @@ function setTimer(index) {
 
             if (remainingTime <= 0) {
                 clearInterval(interval);
-                timerBtn.textContent = "Task done!";
+                timerBtn.textContent = "Set Timer";
                 timerBtn.disabled = false;
 
                 // Play the sound
@@ -176,6 +174,7 @@ function setTimer(index) {
         }, 1000);
     }
 }
+
 
 
 
