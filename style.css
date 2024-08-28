@@ -85,7 +85,6 @@ ul {
     align-items: center;
     gap: 1rem;
     color: var(--dark);
-    align-items: center;
 }
 
 #todoList .disabled {
@@ -259,4 +258,5 @@ input[type="checkbox"]:checked::before {
 .todo-text {
     flex-grow: 1;
     margin-right: 1rem;
+    text-align: left;
 }

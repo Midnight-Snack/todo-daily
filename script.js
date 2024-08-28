@@ -101,7 +101,7 @@ function editTask(index) {
             todo[index].text = updatedText;
             saveToLocalStorage();
         }
-        displayTasks(); // Re-display tasks after editing
+        displayTasks(); 
     });
 }
 
@@ -155,7 +155,6 @@ function setTimer(index) {
         const interval = setInterval(() => {
             remainingTime--;
 
-            // Calculate remaining minutes and seconds
             let minutes = Math.floor(remainingTime / 60);
             let seconds = remainingTime % 60;
 
