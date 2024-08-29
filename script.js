@@ -151,9 +151,12 @@ function setTimer(index) {
         let timerBtn = document.querySelector(`#todoList .todo-container[data-index="${index}"] .todo-timer-btn`);
         timerBtn.disabled = true;
         let remainingTime = timeInSeconds;
+        let start = Date.now();
+        let end = start + timeInSeconds * 1000;
 
-        const interval = setInterval(() => {
-            remainingTime--;
+        function updateTimer() {
+            let now = Date.now();
+            remainingTime = Math.ceil((end - now) / 1000);
 
             let minutes = Math.floor(remainingTime / 60);
             let seconds = remainingTime % 60;
@@ -162,15 +165,18 @@ function setTimer(index) {
             timerBtn.textContent = `${minutes}m ${seconds}s`;
 
             if (remainingTime <= 0) {
-                clearInterval(interval);
                 timerBtn.textContent = "Timer";
                 timerBtn.disabled = false;
 
                 // Play the sound
                 const timerSound = document.getElementById("timerSound");
                 timerSound.play();
+            } else {
+                setTimeout(updateTimer, 1000); // Schedule the next update
             }
-        }, 1000);
+        }
+
+        updateTimer();
     }
 }
 
