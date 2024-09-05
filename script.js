@@ -79,29 +79,27 @@ function deleteTask(index) {
 }
 
 function editTask(index) {
-    const todoItem = document.getElementById(`todo-${index}`);
-    const existingText = todo[index].text;
+    let taskTextElement = document.querySelector(`#todoList .todo-container[data-index="${index}"] .todo-text`);
+    let currentText = taskTextElement.textContent;
 
-    // Create a new input element for editing
-    const inputElement = document.createElement("input");
-    inputElement.type = "text";
-    inputElement.value = existingText;
-    inputElement.className = "todo-edit-input";
-    
-    // Replace the text span with the input field
-    const parentDiv = todoItem.parentElement;
-    parentDiv.querySelector('.todo-text').replaceWith(inputElement);
-    
-    inputElement.focus();
+    let input = document.createElement('input');
+    input.type = 'text';
+    input.value = currentText;
+    input.classList.add('todo-edit-input');
 
-    // When the input loses focus, update the task and re-render
-    inputElement.addEventListener("blur", function () {
-        const updatedText = inputElement.value.trim();
-        if (updatedText) {
-            todo[index].text = updatedText;
-            saveToLocalStorage();
+    taskTextElement.innerHTML = '';
+    taskTextElement.appendChild(input);
+
+    input.focus();
+
+    input.addEventListener('blur', function() {
+        taskTextElement.textContent = input.value;
+    });
+
+    input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            taskTextElement.textContent = input.value;
         }
-        displayTasks(); 
     });
 }
 
