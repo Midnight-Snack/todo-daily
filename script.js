@@ -93,15 +93,24 @@ function editTask(index) {
     input.focus();
 
     input.addEventListener('blur', function() {
-        taskTextElement.textContent = input.value;
+        saveEditedTask(index, input.value);
     });
 
     input.addEventListener('keydown', function(e) {
         if (e.key === 'Enter') {
-            taskTextElement.textContent = input.value;
+            saveEditedTask(index, input.value);
         }
     });
 }
+
+function saveEditedTask(index, newText) {
+    if (newText.trim() !== "") { 
+        todo[index].text = newText.trim(); 
+        saveToLocalStorage(); 
+        displayTasks(); 
+    }
+}
+
 
 function toggleTask(index) {
     todo[index].disabled = !todo[index].disabled;
